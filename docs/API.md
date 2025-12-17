@@ -31,7 +31,7 @@ const masterKey = generateMasterKey();
 
 **Exemplo:**
 ```javascript
-import { generateMasterKey, exportMasterKey } from 'video-chunk-crypto';
+import { generateMasterKey, exportMasterKey } from '@kitsuneislife/keyring-vcm';
 
 const masterKey = generateMasterKey();
 const hex = exportMasterKey(masterKey);
@@ -351,7 +351,7 @@ new EncryptionStream(videoKey, videoId, options)
 
 **Exemplo:**
 ```javascript
-import { EncryptionStream } from 'video-chunk-crypto';
+import { EncryptionStream } from '@kitsuneislife/keyring-vcm';
 import fs from 'fs';
 
 const videoKey = deriveVideoKey(masterKey, 'video-001');
@@ -394,7 +394,7 @@ new DecryptionStream(videoKey, videoId, options)
 
 **Exemplo:**
 ```javascript
-import { DecryptionStream, ChunkDeserializationStream } from 'video-chunk-crypto';
+import { DecryptionStream, ChunkDeserializationStream } from '@kitsuneislife/keyring-vcm';
 
 const videoKey = deriveVideoKey(masterKey, 'video-001');
 const deserStream = new ChunkDeserializationStream();
@@ -721,7 +721,7 @@ const fromText = EncryptedChunk.fromText(text, 'base64');
 Configurações do sistema.
 
 ```javascript
-import { CONFIG } from 'video-chunk-crypto';
+import { CONFIG } from '@kitsuneislife/keyring-vcm';
 
 console.log(CONFIG.CHUNK_SIZE);  // 524288 (512KB)
 console.log(CONFIG.CRYPTO.ALGORITHM);  // 'aes-256-gcm'
@@ -734,7 +734,7 @@ console.log(CONFIG.CRYPTO.ALGORITHM);  // 'aes-256-gcm'
 Limites de segurança.
 
 ```javascript
-import { SECURITY_LIMITS } from 'video-chunk-crypto';
+import { SECURITY_LIMITS } from '@kitsuneislife/keyring-vcm';
 
 console.log(SECURITY_LIMITS.MAX_FILE_SIZE);  // 50GB
 console.log(SECURITY_LIMITS.MAX_CHUNKS_PER_VIDEO);  // 100000

@@ -64,12 +64,12 @@ Bem-vindo à documentação completa do **Video Chunk Crypto**, um sistema profi
 
 ### 1. Instalação
 ```bash
-npm install video-chunk-crypto
+npm install @kitsuneislife/keyring-vcm
 ```
 
 ### 2. Uso Básico
 ```javascript
-import { generateMasterKey, encryptFile, decryptFile } from 'video-chunk-crypto';
+import { generateMasterKey, encryptFile, decryptFile } from '@kitsuneislife/keyring-vcm';
 
 const masterKey = generateMasterKey();
 

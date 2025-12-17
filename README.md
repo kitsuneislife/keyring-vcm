@@ -43,7 +43,7 @@ Sistema profissional de criptografia de vídeo por chunks usando **AES-256-GCM**
 ## 📦 Instalação
 
 ```bash
-npm install video-chunk-crypto
+npm install @kitsuneislife/keyring-vcm
 ```
 
 **Requisitos:**
@@ -60,7 +60,7 @@ import {
   generateMasterKey,
   encryptFile,
   decryptFile
-} from 'video-chunk-crypto';
+} from '@kitsuneislife/keyring-vcm';
 
 // 1. Gera master key (faça UMA VEZ e guarde com segurança)
 const masterKey = generateMasterKey();
@@ -85,7 +85,7 @@ await decryptFile({
 ### Em Memória (Buffer)
 
 ```javascript
-import { encryptBuffer, decryptBuffer, generateMasterKey } from 'video-chunk-crypto';
+import { encryptBuffer, decryptBuffer, generateMasterKey } from '@kitsuneislife/keyring-vcm';
 
 const masterKey = generateMasterKey();
 const videoData = Buffer.from('...');
@@ -112,7 +112,7 @@ const restored = await decryptBuffer({
 ### Master Key (Única para toda aplicação)
 
 ```javascript
-import { generateMasterKey, exportMasterKey, importMasterKey } from 'video-chunk-crypto';
+import { generateMasterKey, exportMasterKey, importMasterKey } from '@kitsuneislife/keyring-vcm';
 
 // Gera (faça uma vez)
 const masterKey = generateMasterKey();
@@ -431,7 +431,7 @@ await Promise.all(chunks.map((chunk, i) =>
 ### 2. Streaming de Vídeo Protegido
 
 ```javascript
-import { EncryptionStream, ChunkSerializationStream } from 'video-chunk-crypto';
+import { EncryptionStream, ChunkSerializationStream } from '@kitsuneislife/keyring-vcm';
 
 const encStream = new EncryptionStream(videoKey, videoId);
 const serStream = new ChunkSerializationStream();

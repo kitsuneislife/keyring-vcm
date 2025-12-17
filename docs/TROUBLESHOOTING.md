@@ -186,7 +186,7 @@ for (const part of fs.readdirSync('.').filter(f => f.startsWith('part-'))) {
 }
 
 // Opção 2: Modifica SECURITY_LIMITS (não recomendado)
-import { SECURITY_LIMITS } from 'video-chunk-crypto';
+import { SECURITY_LIMITS } from '@kitsuneislife/keyring-vcm';
 // SECURITY_LIMITS.MAX_FILE_SIZE = 100 * 1024 * 1024 * 1024; // 100GB
 ```
 
@@ -353,7 +353,7 @@ Error: Rate limit excedido
 
 **Solução:**
 ```javascript
-import { RateLimiter } from 'video-chunk-crypto';
+import { RateLimiter } from '@kitsuneislife/keyring-vcm';
 
 const limiter = new RateLimiter(100, 60000); // 100 req/min
 
@@ -558,7 +558,7 @@ dumpChunk(chunk);
 ### Script de Health Check
 
 ```javascript
-import { encryptBuffer, decryptBuffer, generateMasterKey } from 'video-chunk-crypto';
+import { encryptBuffer, decryptBuffer, generateMasterKey } from '@kitsuneislife/keyring-vcm';
 
 async function healthCheck() {
   const tests = [];

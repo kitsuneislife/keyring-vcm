@@ -25,7 +25,7 @@ export const CONFIG = {
   // Configurações HKDF
   HKDF: {
     HASH: 'sha256',
-    INFO: 'video-chunk-crypto-v1',
+    INFO: '@kitsuneislife/keyring-vcm-v1',
     SALT_LENGTH: 32
   },
 

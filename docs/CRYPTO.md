@@ -32,7 +32,7 @@ Este documento descreve os algoritmos, parâmetros e garantias criptográficas d
 |--------------|--------------------|----------------------------------------|
 | Hash         | SHA-256            | Padrão NIST FIPS 180-4                 |
 | Salt         | SHA-256(videoId)   | Derivação determinística e única       |
-| Info         | "video-chunk-crypto-v1" | Context binding               |
+| Info         | "@kitsuneislife/keyring-vcm-v1" | Context binding               |
 | Output       | 32 bytes           | Mesmo tamanho da master key            |
 
 **Processo:**
@@ -43,7 +43,7 @@ Este documento descreve os algoritmos, parâmetros e garantias criptográficas d
    prk = HMAC-SHA256(salt, masterKey)
 
 2. Expand:
-   info = "video-chunk-crypto-v1"
+   info = "@kitsuneislife/keyring-vcm-v1"
    videoKey = HMAC-SHA256(prk, info || 0x01)[0:32]
 ```
 
@@ -120,7 +120,7 @@ videoKey = HKDF(
   hash    = SHA-256,
   salt    = SHA256(videoId),
   ikm     = masterKey,
-  info    = "video-chunk-crypto-v1",
+  info    = "@kitsuneislife/keyring-vcm-v1",
   length  = 32
 )
 ```

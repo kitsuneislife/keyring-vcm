@@ -137,7 +137,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 #### 📦 Estrutura do Projeto
 
 ```
-video-chunk-crypto/
+@kitsuneislife/keyring-vcm/
 ├── src/
 │   ├── index.js           # API pública
 │   ├── config.js          # Configurações

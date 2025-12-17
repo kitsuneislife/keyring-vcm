@@ -30,7 +30,7 @@ MASTER_KEY=a1b2c3d4e5f6...
 
 **Código:**
 ```javascript
-import { importMasterKey } from 'video-chunk-crypto';
+import { importMasterKey } from '@kitsuneislife/keyring-vcm';
 
 const masterKey = importMasterKey(process.env.MASTER_KEY);
 ```

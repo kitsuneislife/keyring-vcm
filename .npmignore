@@ -1,0 +1,26 @@
+# Arquivos de desenvolvimento
+tests/
+examples/
+coverage/
+.nyc_output/
+*.log
+
+# Arquivos temporários
+*.tmp
+*.temp
+tests/temp/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# CI/CD
+.github/
+
+# Documentação de desenvolvimento (opcional - remova se quiser incluir)
+docs/
+PATCH_NOTES.md
