@@ -1,0 +1,43 @@
+{
+  "name": "@kitsuneislife/keyring-vcm",
+  "version": "1.0.0",
+  "description": "Sistema seguro de criptografia de vídeo por chunks usando AES-256-GCM com validações robustas e verificação de integridade",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/**/*.test.js",
+    "example": "node examples/basic-usage.js",
+    "example:buffer": "node examples/buffer-usage.js",
+    "example:streaming": "node examples/streaming-usage.js",
+    "example:multi": "node examples/multi-video.js"
+  },
+  "keywords": [
+    "encryption",
+    "video",
+    "chunk",
+    "aes-256-gcm",
+    "streaming",
+    "security",
+    "crypto",
+    "hkdf",
+    "authenticated-encryption",
+    "aead",
+    "file-encryption",
+    "secure-storage"
+  ],
+  "author": "kitsuneislife",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kitsuneislife/keyring-vcm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kitsuneislife/keyring-vcm/issues"
+  },
+  "homepage": "https://github.com/kitsuneislife/keyring-vcm#readme"
+}
