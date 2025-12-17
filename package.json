@@ -1,6 +1,6 @@
 {
   "name": "@kitsuneislife/keyring-vcm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sistema seguro de criptografia de vídeo por chunks usando AES-256-GCM com validações robustas e verificação de integridade",
   "main": "src/index.js",
   "type": "module",
