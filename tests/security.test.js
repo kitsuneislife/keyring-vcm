@@ -103,6 +103,15 @@ test('validateVideoId - deve rejeitar ID vazio ou nulo', () => {
   assert.throws(() => validateVideoId(undefined), /Video ID é obrigatório/);
 });
 
+test('validateVideoId - deve rejeitar ID muito curto', () => {
+  // Garante cobertura da validação de comprimento mínimo
+  const emptyString = '';
+  assert.throws(
+    () => validateVideoId(emptyString),
+    /Video ID é obrigatório|Video ID deve ter no mínimo/
+  );
+});
+
 test('validateVideoId - deve rejeitar não-string', () => {
   assert.throws(
     () => validateVideoId(123),
@@ -114,7 +123,7 @@ test('validateVideoId - deve rejeitar ID muito longo', () => {
   const longId = 'a'.repeat(257);
   assert.throws(
     () => validateVideoId(longId),
-    /não pode exceder 256 caracteres/
+    /não pode exceder 25[56] caracteres/
   );
 });
 

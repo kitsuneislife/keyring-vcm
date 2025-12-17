@@ -184,3 +184,19 @@ test('Chunk Crypto - videoId errado deve falhar', () => {
     'VideoId diferente deve falhar via AAD'
   );
 });
+
+test('Chunk Crypto - decryptChunk deve validar tipo do chunk', () => {
+  const masterKey = generateMasterKey();
+  const videoKey = deriveVideoKey(masterKey, 'video-test');
+
+  // Passa objeto inválido ao invés de EncryptedChunk
+  assert.throws(
+    () => decryptChunk({ invalid: 'object' }, videoKey, 'video-test'),
+    /encryptedChunk deve ser instância de EncryptedChunk/
+  );
+
+  assert.throws(
+    () => decryptChunk(null, videoKey, 'video-test'),
+    /encryptedChunk deve ser instância de EncryptedChunk/
+  );
+});

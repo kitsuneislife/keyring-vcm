@@ -142,33 +142,54 @@ test('HashStream - deve calcular hash durante streaming', async () => {
   const hashStream = new HashStream('sha256');
   const chunks = [];
 
-  hashStream.on('data', chunk => chunks.push(chunk));
+  return new Promise((resolve, reject) => {
+    hashStream.on('data', chunk => chunks.push(chunk));
+    
+    hashStream.on('end', () => {
+      try {
+        const result = Buffer.concat(chunks);
+        assert.deepStrictEqual(result, testData);
 
-  hashStream.write(testData.slice(0, 10));
-  hashStream.write(testData.slice(10));
-  hashStream.end();
+        const hash = hashStream.getHash('hex');
+        assert.strictEqual(hash, crypto.createHash('sha256').update(testData).digest('hex'));
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    });
 
-  await new Promise(resolve => hashStream.on('end', resolve));
+    hashStream.on('error', reject);
 
-  const result = Buffer.concat(chunks);
-  assert.deepStrictEqual(result, testData);
-
-  const hash = hashStream.getHash('hex');
-  assert.strictEqual(hash, crypto.createHash('sha256').update(testData).digest('hex'));
+    hashStream.write(testData.slice(0, 10));
+    hashStream.write(testData.slice(10));
+    hashStream.end();
+  });
 });
 
-test('HashStream - deve suportar diferentes algoritmos', async () => {
+test('HashStream - deve suportar diferentes algoritmos', () => {
   const testData = Buffer.from('test data');
   const hashStream = new HashStream('sha512');
+  const chunks = [];
 
-  hashStream.write(testData);
-  hashStream.end();
+  return new Promise((resolve, reject) => {
+    hashStream.on('data', chunk => chunks.push(chunk));
+    
+    hashStream.on('end', () => {
+      try {
+        const hash = hashStream.getHash('hex');
+        assert.strictEqual(hash, crypto.createHash('sha512').update(testData).digest('hex'));
+        assert.strictEqual(hash.length, 128); // SHA-512 = 128 hex chars
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    });
 
-  await new Promise(resolve => hashStream.on('end', resolve));
+    hashStream.on('error', reject);
 
-  const hash = hashStream.getHash('hex');
-  assert.strictEqual(hash, crypto.createHash('sha512').update(testData).digest('hex'));
-  assert.strictEqual(hash.length, 128); // SHA-512 = 128 hex chars
+    hashStream.write(testData);
+    hashStream.end();
+  });
 });
 
 test('verifyFileIntegrity - arquivos idênticos devem retornar true', async () => {
