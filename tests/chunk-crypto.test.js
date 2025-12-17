@@ -42,6 +42,47 @@ test('EncryptedChunk - serialização/deserialização texto base64', () => {
   assert.deepStrictEqual(restored.ciphertext, chunk.ciphertext);
 });
 
+test('EncryptedChunk - serialização/deserialização texto hex', () => {
+  const chunk = new EncryptedChunk(
+    15,
+    crypto.randomBytes(12),
+    crypto.randomBytes(16),
+    Buffer.from('hex test data')
+  );
+
+  const text = chunk.toText('hex');
+  const restored = EncryptedChunk.fromText(text, 'hex');
+
+  assert.strictEqual(restored.index, chunk.index);
+  assert.deepStrictEqual(restored.iv, chunk.iv);
+  assert.deepStrictEqual(restored.tag, chunk.tag);
+  assert.deepStrictEqual(restored.ciphertext, chunk.ciphertext);
+});
+
+test('EncryptedChunk - size deve retornar tamanho correto', () => {
+  const chunk = new EncryptedChunk(
+    0,
+    Buffer.alloc(12),
+    Buffer.alloc(16),
+    Buffer.alloc(100)
+  );
+
+  // Header = 4 + 12 + 16 = 32 bytes, Ciphertext = 100 bytes
+  assert.strictEqual(chunk.size, 132);
+});
+
+test('EncryptedChunk - fromBuffer deve rejeitar buffer inválido', () => {
+  assert.throws(
+    () => EncryptedChunk.fromBuffer(Buffer.alloc(10)),
+    /Buffer inválido ou muito pequeno/
+  );
+  
+  assert.throws(
+    () => EncryptedChunk.fromBuffer('not a buffer'),
+    /Buffer inválido ou muito pequeno/
+  );
+});
+
 test('Chunk Crypto - encriptação/decriptação básica', () => {
   const masterKey = generateMasterKey();
   const videoId = 'video-test';

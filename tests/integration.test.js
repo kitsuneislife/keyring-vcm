@@ -211,6 +211,86 @@ test('File Crypto - chave errada deve falhar', async () => {
   }
 });
 
+test('File Crypto - arquivo inexistente deve falhar', async () => {
+  const masterKey = generateMasterKey();
+  
+  await assert.rejects(
+    async () => await encryptFile({
+      inputPath: 'non-existent-file.bin',
+      outputPath: path.join(testDir, 'output.enc'),
+      masterKey,
+      videoId: 'test'
+    }),
+    /Arquivo de entrada não encontrado/
+  );
+  
+  await assert.rejects(
+    async () => await decryptFile({
+      inputPath: 'non-existent-encrypted.enc',
+      outputPath: path.join(testDir, 'output.bin'),
+      masterKey,
+      videoId: 'test'
+    }),
+    /Arquivo criptografado não encontrado/
+  );
+});
+
+test('File Crypto - validação de path traversal', async () => {
+  const masterKey = generateMasterKey();
+  
+  await assert.rejects(
+    async () => await encryptFile({
+      inputPath: '../../../etc/passwd',
+      outputPath: path.join(testDir, 'output.enc'),
+      masterKey,
+      videoId: 'test'
+    }),
+    /Path traversal/
+  );
+});
+
+test('File Crypto - validação de encoding inválido', async () => {
+  const inputPath = path.join(testDir, 'test-encoding-val.bin');
+  const outputPath = path.join(testDir, 'test-encoding-val.enc');
+  fs.writeFileSync(inputPath, Buffer.from('test data'));
+  
+  const masterKey = generateMasterKey();
+  
+  await assert.rejects(
+    async () => await encryptFile({
+      inputPath,
+      outputPath,
+      masterKey,
+      videoId: 'test',
+      encoding: 'utf8' // Encoding inválido
+    }),
+    /Encoding inválido/
+  );
+  
+  fs.unlinkSync(inputPath);
+});
+
+test('File Crypto - validação de chunkSize customizado', async () => {
+  const inputPath = path.join(testDir, 'test-chunk-val.bin');
+  const outputPath = path.join(testDir, 'test-chunk-val.enc');
+  fs.writeFileSync(inputPath, Buffer.alloc(2048));
+  
+  const masterKey = generateMasterKey();
+  
+  await assert.rejects(
+    async () => await encryptFile({
+      inputPath,
+      outputPath,
+      masterKey,
+      videoId: 'test',
+      chunkSize: 512 // Muito pequeno
+    }),
+    /Chunk size deve ser no mínimo/
+  );
+  
+  fs.unlinkSync(inputPath);
+});
+
 // Cleanup do diretório de testes após todos os testes
 test('Cleanup', () => {
   if (fs.existsSync(testDir)) {

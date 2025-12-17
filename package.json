@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/**/*.test.js",
+    "test:coverage": "c8 --reporter=text --reporter=html --reporter=lcov node --test tests/**/*.test.js",
     "example": "node examples/basic-usage.js",
     "example:buffer": "node examples/buffer-usage.js",
     "example:streaming": "node examples/streaming-usage.js",
@@ -30,8 +31,9 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "c8": "^10.1.3"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kitsuneislife/keyring-vcm.git"

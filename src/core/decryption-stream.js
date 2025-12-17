@@ -9,7 +9,6 @@ export class ChunkDeserializationStream extends Transform {
   constructor(options = {}) {
     super({ ...options, objectMode: true });
     this.buffer = Buffer.alloc(0);
-    this.minChunkSize = CONFIG.HEADER.TOTAL_SIZE + 1;
   }
 
   _transform(chunk, encoding, callback) {
@@ -17,21 +16,23 @@ export class ChunkDeserializationStream extends Transform {
       this.buffer = Buffer.concat([this.buffer, chunk]);
 
       // Tenta extrair chunks completos
-      // Nota: em produção real, seria melhor ter um delimitador ou tamanho prefixado
-      // Para simplicidade, assumimos que cada write contém um chunk completo
-      while (this.buffer.length >= this.minChunkSize) {
-        try {
-          const encryptedChunk = EncryptedChunk.fromBuffer(this.buffer);
-          
-          // Remove o chunk processado do buffer
-          const chunkSize = encryptedChunk.size;
-          this.buffer = this.buffer.slice(chunkSize);
-          
-          this.push(encryptedChunk);
-        } catch (error) {
-          // Se não conseguir parsear, espera mais dados
-          break;
+      // Formato: [tamanho(4 bytes)][chunk data]
+      while (this.buffer.length >= 4) {
+        // Lê o tamanho do próximo chunk
+        const chunkSize = this.buffer.readUInt32BE(0);
+        
+        // Verifica se temos o chunk completo no buffer
+        if (this.buffer.length < 4 + chunkSize) {
+          break; // Espera mais dados
         }
+        
+        // Extrai o chunk
+        const chunkData = this.buffer.slice(4, 4 + chunkSize);
+        this.buffer = this.buffer.slice(4 + chunkSize);
+        
+        // Deserializa
+        const encryptedChunk = EncryptedChunk.fromBuffer(chunkData);
+        this.push(encryptedChunk);
       }
 
       callback();
@@ -42,7 +43,7 @@ export class ChunkDeserializationStream extends Transform {
 
   _flush(callback) {
     if (this.buffer.length > 0) {
-      callback(new Error('Buffer contém dados não processados'));
+      callback(new Error(`Buffer contém ${this.buffer.length} bytes não processados`));
     } else {
       callback();
     }

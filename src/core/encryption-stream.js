@@ -94,7 +94,13 @@ export class ChunkSerializationStream extends Transform {
         throw new Error('Entrada deve ser EncryptedChunk');
       }
 
-      this.push(encryptedChunk.toBuffer());
+      const chunkBuffer = encryptedChunk.toBuffer();
+      
+      // Adiciona tamanho do chunk (4 bytes) antes do chunk
+      const sizeBuffer = Buffer.allocUnsafe(4);
+      sizeBuffer.writeUInt32BE(chunkBuffer.length, 0);
+      
+      this.push(Buffer.concat([sizeBuffer, chunkBuffer]));
       callback();
     } catch (error) {
       callback(error);

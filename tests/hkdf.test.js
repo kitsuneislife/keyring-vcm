@@ -53,10 +53,32 @@ test('HKDF - export/import deve ser reversível', () => {
   assert.deepStrictEqual(original, imported);
 });
 
+test('HKDF - importMasterKey deve validar entrada', () => {
+  assert.throws(
+    () => importMasterKey(''),
+    /Hex key deve ser uma string não vazia/
+  );
+
+  assert.throws(
+    () => importMasterKey(null),
+    /Hex key deve ser uma string não vazia/
+  );
+
+  assert.throws(
+    () => importMasterKey('not-hex-zzz'),
+    /Hex key contém caracteres inválidos/
+  );
+
+  assert.throws(
+    () => importMasterKey('abc123xyz'),
+    /Hex key contém caracteres inválidos/
+  );
+});
+
 test('HKDF - deriveVideoKey deve validar masterKey', () => {
   assert.throws(
     () => deriveVideoKey(Buffer.alloc(16), 'video-123'),
-    /Master key deve ter 32 bytes/
+    /Master key deve ter exatamente 32 bytes/
   );
 });
 
@@ -65,11 +87,11 @@ test('HKDF - deriveVideoKey deve validar videoId', () => {
 
   assert.throws(
     () => deriveVideoKey(masterKey, ''),
-    /Video ID deve ser uma string não vazia/
+    /Video ID é obrigatório|Video ID deve ter no mínimo/
   );
 
   assert.throws(
     () => deriveVideoKey(masterKey, null),
-    /Video ID deve ser uma string não vazia/
+    /Video ID é obrigatório/
   );
 });

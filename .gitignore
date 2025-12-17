@@ -7,3 +7,4 @@ dist/
 *.decrypted
 test-videos/
 examples/output/
+package-lock.json

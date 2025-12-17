@@ -1,4 +1,14 @@
-# 🔐 Video Chunk Crypto
+<div align="center">
+  <img src="banner.png" alt="Keyring VCM Banner" width="100%">
+</div>
+<br>
+<div align="center">
+
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](./tests)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Node](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen.svg)](https://nodejs.org)
+
+</div>
 
 Sistema profissional de criptografia de vídeo por chunks usando **AES-256-GCM**, projetado para **segurança máxima**, **streaming eficiente** e **integridade garantida**.
 

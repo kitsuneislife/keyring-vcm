@@ -162,18 +162,25 @@ export async function encryptBuffer(options) {
 
   const videoKey = deriveVideoKey(masterKey, videoId);
   const encryptionStream = new EncryptionStream(videoKey, videoId, { chunkSize });
+  const serializationStream = new ChunkSerializationStream();
   const chunks = [];
 
   return new Promise((resolve, reject) => {
-    encryptionStream.on('data', (chunk) => {
-      chunks.push(chunk.toBuffer());
+    serializationStream.on('data', (chunk) => {
+      chunks.push(chunk);
     });
 
-    encryptionStream.on('end', () => {
+    serializationStream.on('end', () => {
       resolve(chunks);
     });
 
-    encryptionStream.on('error', reject);
+    serializationStream.on('error', reject);
+
+    // Pipeline: encryption -> serialization
+    pipeline(
+      encryptionStream,
+      serializationStream
+    ).catch(reject);
 
     encryptionStream.write(data);
     encryptionStream.end();
