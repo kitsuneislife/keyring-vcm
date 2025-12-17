@@ -514,12 +514,3 @@ Este projeto implementa **best practices** recomendadas por:
    - Re-encripte vídeos antigos quando necessário
 
 ---
-
-## 📞 Suporte
-
-Para questões de segurança: **[seu-email-de-segurança]**  
-Para bugs/features: Abra uma issue no GitHub
-
----
-
-**Desenvolvido com ❤️ e foco em segurança máxima.**
